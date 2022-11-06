@@ -2,6 +2,11 @@ import json
 
 import requests as rs
 
+# Pet store functional testing project
+
+# TEST 1 - New pet creation
+# Creating a new record in the database for a new pet, inserting all
+# relevant data describing the pet.
 def test_create_new_pet():
     pet = {
         'id': None,
@@ -31,7 +36,8 @@ def test_create_new_pet():
     assert pet_dict['category']['id'] == 0
     assert pet_dict['category']['name'] == 'string'
 
-
+# TEST 2 - Getting pet's data by ID (case: found)
+# Extract the existing pet's data by ID from the Swagger database.
 def test_get_pet_by_id():
     pet = {
         'id': None,
@@ -63,7 +69,8 @@ def test_get_pet_by_id():
     assert pet_dict['category']['id'] == 0
     assert pet_dict['category']['name'] == 'string'
 
-
+# TEST 3 - Getting pet's data by ID (case: not found)
+# Extract the existing pet's data by ID from the Swagger database.
 def test_get_pet_by_id_not_found():
     response = rs.get('https://petstore.swagger.io/v2/pet/0')
     pet_dict = json.loads(bytearray(response.text, 'utf-8'))
@@ -72,7 +79,9 @@ def test_get_pet_by_id_not_found():
     assert pet_dict['type'] == 'error'
     assert pet_dict['message'] == 'Pet not found'
 
-
+# TEST 4 - Existing pet deletion (case: existing)
+# Deleting the pet's entire data record from the database Swagger,
+# which exists in the database.
 def test_delete_pet():
     pet = {
         'id': None,
@@ -99,12 +108,15 @@ def test_delete_pet():
     assert response_post.status_code == 200
     assert response_delete.status_code == 200
 
-
+# TEST 5 - Existing pet deletion (case: non-existing)
+# Deleting the pet's entire data record from the database Swagger,
+# which does not exist in the database.
 def test_delete_pet_not_found():
     response_delete = rs.delete('https://petstore.swagger.io/v2/pet/-400')
     assert response_delete.status_code == 404
 
-
+# TEST 6 - Posting new order into the database
+# Creating a new record for the pet in the database.
 def test_create_new_order():
     order = {
         'id': None,
@@ -124,7 +136,8 @@ def test_create_new_order():
     assert order_dict['status'] == 'placed'
     assert order_dict['complete'] == True
 
-
+# TEST 7 - Getting order data by order ID (case: existing order)
+# Extracting the data record for the existing oder by using existing order ID.
 def test_get_order_by_id():
     response = rs.get('https://petstore.swagger.io/v2/store/order/4')
     pet_dict = json.loads(bytearray(response.text, 'utf-8'))
@@ -135,7 +148,8 @@ def test_get_order_by_id():
     assert pet_dict['status'] == 'placed'
     assert pet_dict['complete'] == True
 
-
+# TEST 8 - Getting order data by order ID (case: non-existing order)
+# Extracting the data record for the non-existing oder by using non-existing order ID.
 def test_get_order_by_id_not_found():
     response = rs.get('https://petstore.swagger.io/v2/store/order/-4')
     pet_dict = json.loads(bytearray(response.text, 'utf-8'))
@@ -144,7 +158,9 @@ def test_get_order_by_id_not_found():
     assert pet_dict['type'] == 'error'
     assert pet_dict['message'] == 'Order not found'
 
-
+# TEST 9 - New user creation
+# Create a new user in the database, insert all the relevant data while
+# creating a record in the database.
 def test_create_new_user():
     user = {
         'id': None,
@@ -160,7 +176,8 @@ def test_create_new_user():
     response = rs.post('https://petstore.swagger.io/v2/user', json=user)
     assert response.status_code == 200
 
-
+# TEST 10 - User data update
+# Update the data for the existing user.
 def test_update_user():
     user = {
         'id': 0,
@@ -187,7 +204,8 @@ def test_update_user():
     assert response_post.status_code == 200
     assert response_put.status_code == 200
 
-
+# TEST 11 - User data record deletion
+# Delete all data for the existng user from the database.
 def test_delete_user():
     user = {
         'id': 0,
