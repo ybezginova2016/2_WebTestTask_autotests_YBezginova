@@ -205,7 +205,7 @@ def test_update_user():
     assert response_put.status_code == 200
 
 # TEST 11 - User data record deletion
-# Delete all data for the existng user from the database.
+# Delete all data for the existing user from the database.
 def test_delete_user():
     user = {
         'id': 0,
